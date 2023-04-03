@@ -33,29 +33,43 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(con)
 
     def click(self):
-        v = float(self.weight_input.text())
-        q = float(self.height_input.text())
+        try:
+            v = float(self.weight_input.text())
+            q = float(self.height_input.text())
 
-        done = int(v / (q ** 2))
+            done = int(v / (q ** 2))
 
-        if done < 18.5:
-            o = QMessageBox(self)
-            o.setWindowTitle("your BMI")
-            o.setText(f"""Indicator: {done} kg/m^2
-            You are underweight""")
-            o.exec()
+            if done < 18.5:
+                o = QMessageBox(self)
+                o.setWindowTitle("your BMI")
+                o.setText(f"""Indicator: {done} kg/m^2
+                        You are underweight""")
+                o.exec()
 
-        elif 18.5 <= done < 25:
-            o = QMessageBox(self)
-            o.setWindowTitle("your BMI")
-            o.setText(f"""Indicator: {done} kg/m^2
-            Your weight is ideal""")
-            o.exec()
+            elif 18.5 <= done < 25:
+                o = QMessageBox(self)
+                o.setWindowTitle("your BMI")
+                o.setText(f"""Indicator: {done} kg/m^2
+                        Your weight is ideal""")
+                o.exec()
 
-        elif 25 <= done < 30:
+            elif 25 <= done < 30:
+                o: QMessageBox | QMessageBox = QMessageBox(self)
+                o.setWindowTitle("your BMI")
+                o.setText(f"""Indicator: {done} kg/m^2
+                        You are overweight""")
+                o.exec()
+        except Exception as e:
             o: QMessageBox | QMessageBox = QMessageBox(self)
-            o.setWindowTitle("your BMI")
-            o.setText(f"""Indicator: {done} kg/m^2
-            You are overweight""")
+            o.setWindowTitle("Error")
+            o.setText(f"[!]Error: {e}")
             o.exec()
 
+
+app = QApplication(sys.argv)
+
+window = MainWindow()
+
+window.show()
+
+app.exec()
